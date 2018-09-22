@@ -103,7 +103,7 @@ fun thirdDigit(number: Int): Int = number % 1000/100
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = ((minutesDepart + hoursDepart * 60) - (hoursArrive * 60 + minutesArrive))
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = abs((minutesDepart + hoursDepart * 60) - (hoursArrive * 60 + minutesArrive))
 
 /**
  * Простая
@@ -120,4 +120,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = (initial * (1 + pe
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = 100*number % 10 + (number / 10) % 10 + number/100
+fun numberRevert(number: Int): Int = 100*(number % 10) + (10*((number / 10) % 10)) + (number/100)
