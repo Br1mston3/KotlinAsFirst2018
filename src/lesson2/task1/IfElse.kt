@@ -70,8 +70,8 @@ fun ageDescription(age: Int): String {
         (age in 11..20) || (age in 111..120) || (age % 10 == 0) -> ("$age лет")
         (age % 10 == 1) -> ("$age год")
 
-        (age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4) -> ("$age года")
-        else -> ("$age лет")
+        (age % 10 in 2..4) -> ("$age года")
+        else -> "$age лет"
     }
 }
 
@@ -85,12 +85,12 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
 
-    return when {(t1 * v1 >= (t1 * v1 + t2 * v2 + t3 * v3) / 2.0) -> (t1 * v1 + t2 * v2 + t3 * v3) / 2.0 / v1
-        ((t1 * v1 + t2 * v2 + t3 * v3) / 2.0 > (t1 * v1) && ((t1 * v1 + t2 * v2 + t3 * v3) / 2.0) <= (t1 * v1 + t2 * v2)) ->
-            t1 + ((t1 * v1 + t2 * v2 + t3 * v3) / 2.0 - (t1 * v1)) / v2
+    return when {(t1 * v1 >= s) -> s / v1
+        (s > (t1 * v1) && (s) <= (t1 * v1 + t2 * v2)) -> t1 + (s - (t1 * v1)) / v2
 
-        else -> t1 + t2 + (((t1 * v1 + t2 * v2 + t3 * v3) / 2.0) - ((t1 * v1 + t2 * v2))) / v3
+        else -> t1 + t2 + (s - ((t1 * v1 + t2 * v2))) / v3
     }
 }
 
@@ -107,8 +107,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     return when {
-        ((kingX == rookX1) && (kingX == rookX2)) || ((kingY == rookY1) && (kingY == rookY2)) -> 3
-        ((kingX == rookX1) && (kingY == rookY2)) || ((kingY == rookY1) && (kingX == rookX2)) -> 3
+        ((kingX == rookX1) && ((kingX == rookX2) || (kingY == rookY2))) || ((kingY == rookY1) && ((kingY == rookY2) || (kingX == rookX2))) -> 3
+
         (kingX == rookX1) || (kingY == rookY1) -> 1
         (kingX == rookX2) || (kingY == rookY2) -> 2
         else -> 0
@@ -129,8 +129,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     return when {
-        (abs(kingX - bishopX) == abs(kingY - bishopY)) && (kingX == rookX) -> 3
-        (abs(kingX - bishopX) == abs(kingY - bishopY)) && (kingY == rookY) -> 3
+        (abs(kingX - bishopX) == abs(kingY - bishopY)) && ((kingX == rookX) || (kingY == rookY)) -> 3
+
         (kingX == rookX) || (kingY == rookY) -> 1
         (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 2
 
