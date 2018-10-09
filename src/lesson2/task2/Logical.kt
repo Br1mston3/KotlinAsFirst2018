@@ -4,6 +4,7 @@ package lesson2.task2
 
 import lesson1.task1.sqr
 import lesson4.task1.abs
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -21,10 +22,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    return when {
-        (number / 1000 + number % 1000 / 100) == (number / 10 % 10 + number % 10) -> true
-        else -> false
-    }
+    return if ((number / 1000 + number % 1000 / 100) == (number / 10 % 10 + number % 10)) true
+    else return false
 }
 
 /**
@@ -35,10 +34,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return when {
-        (x1 == x2) || (y1 == y2) || (kotlin.math.abs(x1 - x2)) == (kotlin.math.abs(y1 - y2)) -> true
-        else -> false
-    }
+    return if ((x1 == x2) || (y1 == y2) || (kotlin.math.abs(x1 - x2)) == (kotlin.math.abs(y1 - y2))) true
+    else return false
 }
 
 
@@ -69,8 +66,7 @@ fun daysInMonth(month: Int, year: Int): Int {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    return if (r2 >= sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) true
-    else return false
+    return (r2 >= sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1)
 
 }
 
@@ -84,6 +80,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return if((((r>=a) || (r>=b) || (r>=c)) && ((s>=a) || (s>=b) || (s>=c))) && ((r * s) >= (a * b) || (r * s) >= (a * c) || (r * s) >= (b * c))) true
-        else return false
+    return if ((((r >= a) || (r >= b) || (r >= c)) && ((s >= a) || (s >= b) || (s >= c))) &&
+            ((r * s) >= (a * b) || (r * s) >= (a * c) || (r * s) >= (b * c))) true
+    else return false
 }
