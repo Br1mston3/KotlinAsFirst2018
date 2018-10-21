@@ -67,10 +67,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age in 11..20) || (age in 111..120) || (age % 10 == 0) -> "$age лет"
-        (age % 10 == 1) -> "$age год"
-
-        (age % 10 in 2..4) -> "$age года"
+        age in 11..20 || age in 111..120 || age % 10 == 0 -> "$age лет"
+        age % 10 == 1 -> "$age год"
+        age % 10 in 2..4 -> "$age года"
         else -> "$age лет"
     }
 }
@@ -107,14 +106,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val x1: Boolean = kingX == rookX1
-    val x2: Boolean = kingX == rookX2
-    val y1: Boolean = kingY == rookY1
-    val y2: Boolean = kingY == rookY2
+    val x1y1 = kingX == rookX1 || kingY == rookY1
+    val x2y2 = kingX == rookX2 || kingY == rookY2
     return when {
-        x1 || y1 && x2 || y2 -> 3
-        x1 || y1 -> 1
-        x2 || y2 -> 2
+        x1y1 && x2y2 -> 3
+        x1y1 -> 1
+        x2y2 -> 2
         else -> 0
     }
 }
@@ -132,8 +129,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val bi: Boolean = (abs(kingX - bishopX) == abs(kingY - bishopY))
-    val rook: Boolean = ((kingX == rookX) || (kingY == rookY))
+    val bi = abs(kingX - bishopX) == abs(kingY - bishopY)
+    val rook = (kingX == rookX) || (kingY == rookY)
     return when {
         bi && rook -> 3
         rook -> 1
