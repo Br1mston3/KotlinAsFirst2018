@@ -70,11 +70,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var k = 0
+    var N = n
     if (n == 0) return 1
     else do {
-        (k++)
-        // (n=/10) подчеркивается красным
-    } while (n > 0)
+        k++
+        N /= 10
+    } while (N > 0)
     return k
 }
 
@@ -154,10 +155,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 1
     var result = 0
-    for (i in m..n)
-        if ((k * k >= m) && (k * k <= n)) result++
+    for (i in 1..sqrt(n.toDouble()).toInt())
+        if ((i * i >= m) && (i * i <= n))
+            result++
     return result != 0
 }
 
