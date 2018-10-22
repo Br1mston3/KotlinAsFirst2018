@@ -217,10 +217,11 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var result = 0
-    val N = n
-    while (N > 0)
-        result = N % 10 * (result / 10) % 10
-    result /= 10
+    var N = n
+    while (N > 0) {
+        result = result * 10 + N % 10
+        N /= 10
+    }
     return result
 }
 
@@ -233,7 +234,7 @@ fun revert(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -243,7 +244,18 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var N = n
+    val N1 = N % 10
+    var result = 0
+    while (N > 0) {
+        if (N1 % 10 != N % 10) result++
+        N /= 10
+        if (result != 0) break
+    }
+    return result != 0
+}
+
 
 /**
  * Сложная
