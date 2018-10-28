@@ -130,7 +130,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n / 2 downTo 2)
+    for (i in n / 2 downTo 1)
         if (n % i == 0) return i
     return n
 }
@@ -159,9 +159,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var result = 0
-    for (i in 1..sqrt(n.toDouble()).toInt())
-        if ((i * i >= m) && (i * i <= n))
-            result++
+    if ((n == 0) && (m == 0)) return true
+    else
+        for (i in 1..sqrt(n.toDouble()).toInt())
+            if ((i * i >= m) && (i * i <= n))
+                result++
     return result != 0
 }
 
@@ -318,9 +320,9 @@ fun squareSequenceDigit(n: Int): Int {
 
     while (number < n) {
         i++
-number+= digitNumber(i*i)
+        number += digitNumber(i * i)
     }
-    return seqDigit(n,i*i,number)
+    return seqDigit(n, i * i, number)
 }
 
 /**
@@ -335,9 +337,9 @@ number+= digitNumber(i*i)
 fun fibSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    while (number<n) {
+    while (number < n) {
         i++
-        number+= digitNumber(fib(i))
+        number += digitNumber(fib(i))
     }
-    return seqDigit(n,fib(i),number)
+    return seqDigit(n, fib(i), number)
 }
