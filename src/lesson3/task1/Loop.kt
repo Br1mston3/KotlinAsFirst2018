@@ -74,7 +74,6 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var k = 0
     var N = n
-
     do {
         k++
         N /= 10
@@ -119,9 +118,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..sqrt(n.toDouble()).toInt())
-        if (n % i == 0) return i
-    return n
+    if (isPrime(n)) return n
+    var k = 2
+    while (n % k != 0) k++
+    return k
+
 }
 
 /**
@@ -129,13 +130,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    if (isPrime(n) == true) return 1
-    else
-        for (i in n / 2 downTo 1)
-            if (n % i == 0) return i
-    return n
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -145,12 +140,13 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min = minOf(m, n)
-    val max = maxOf(m, n)
-    for (i in 2..sqrt(min.toDouble()).toInt())
-        if (m % i == 0 && n % i == 0) return false
-    return max % min != 0
+    val min = min(n, m)
+    var max = max(m, n)
+    while ((min != 0) && (max != 0)) max %= min
+    max += min
+    return max == 1
 }
+
 
 /**
  * Простая
@@ -275,13 +271,11 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
 fun hasDifferentDigits(n: Int): Boolean {
     var N = n
     val N1 = N % 10
-    var result = 0
     while (N > 0) {
-        if (N1 != N % 10) result++
+        if (N1 != N % 10) return true
         N /= 10
-        if (result != 0) break
     }
-    return result != 0
+    return false
 }
 
 
@@ -298,11 +292,9 @@ fun seqDigit(n: Int, f: Int, number: Int): Int =
 // для удобства для последующих задач
         if (n == number) (f % 10)
         else {
-            var q = number - n
             var ten = 10
-            while (q > 1) {
+            for (q in number - n downTo 2) {
                 ten *= 10
-                q--
             }
             (f / ten) % 10
         }
