@@ -74,11 +74,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var k = 0
     var N = n
-    if (n == 0) return 1
-    else do {
+
+    do {
         k++
         N /= 10
-    } while (N > 0)
+    } while (abs(N) > 0)
     return k
 }
 
@@ -130,8 +130,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n / 2 downTo 1)
-        if (n % i == 0) return i
+    if (isPrime(n) == true) return 1
+    else
+        for (i in n / 2 downTo 1)
+            if (n % i == 0) return i
     return n
 }
 
@@ -157,15 +159,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var result = 0
-    if ((n == 0) && (m == 0)) return true
-    else
-        for (i in 1..sqrt(n.toDouble()).toInt())
-            if ((i * i >= m) && (i * i <= n))
-                result++
-    return result != 0
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean = ceil(sqrt(m.toDouble())) <= floor(sqrt(n.toDouble()))
+
 
 /**
  * Средняя
@@ -282,7 +277,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     val N1 = N % 10
     var result = 0
     while (N > 0) {
-        if (N1 % 10 != N % 10) result++
+        if (N1 != N % 10) result++
         N /= 10
         if (result != 0) break
     }
