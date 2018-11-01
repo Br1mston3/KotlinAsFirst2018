@@ -74,8 +74,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val minK = minOf(a, b, c)
     val midK = when {
-        b >= minOf(a,c) && b < maxOf(a,c) -> b
-        a >= minOf(b,c) && a < maxOf(b,c) -> a
+        b >= minOf(a, c) && b < maxOf(a, c) -> b
+        a >= minOf(b, c) && a < maxOf(b, c) -> a
         else -> c
     }
     val minO = minOf(r, s)
