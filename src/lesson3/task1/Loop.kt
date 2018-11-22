@@ -105,12 +105,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun nod(l: Int, o: Int): Int {
-    var k = 1
-    if (maxOf(l, o) % minOf(l, o) == 0) return minOf(l, o)
-    for (i in 2..sqrt(minOf(l, o).toDouble()).toInt())
-        if ((l % i == 0) && (o % i == 0)) k = i
-    return k
-
+    var L = l
+    var O = o
+    do {
+        if (L > O) L %= O  /////// Не понимаю ошибку java.lang.ArithmeticException: / by zero
+        else O %= L
+    } while ((L != 0) || (O != 0))
+    return O + L
 }
 
 fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
