@@ -107,11 +107,13 @@ fun fib(n: Int): Int {
 fun nod(l: Int, o: Int): Int {
     var L = l
     var O = o
-    do {
-        if (L > O) L %= O  /////// Не понимаю ошибку java.lang.ArithmeticException: / by zero
+
+    while ((L > 0) && (O > 0)) {
+        if (L > O) L %= O
         else O %= L
-    } while ((L != 0) || (O != 0))
-    return O + L
+
+    }
+    return O+L
 }
 
 fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)

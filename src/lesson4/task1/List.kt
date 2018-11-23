@@ -4,6 +4,8 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
+import java.lang.Math.pow
+import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -247,7 +249,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val conv = convert(n, base).toMutableList()
+    val t = StringBuilder()
+    val Chary = 87               ///// значение 'a'=97 в Char отличается от 10 (int) на 87
+    for (i in 0 until conv.size) {
+        if (conv[i] > 9) t.append((conv[i] + Chary).toChar())
+        else t.append(conv[i])
+    }
+    return t.toString()
+}
 
 /**
  * Средняя
@@ -256,7 +267,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var k = 0.0
+    var powER = 0
+    for (i in 0 until digits.size) {
+        powER = digits.size - i - 1   // powER - Степень числа base
+        k += digits[i] * base.toDouble().pow((powER).toDouble())
+    }
+    return k.toInt()
+}
 
 /**
  * Сложная
