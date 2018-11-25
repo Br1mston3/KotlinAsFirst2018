@@ -197,8 +197,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
                 mincost = pair.second
 
 
-            return key
         }
+
+        if (mincost < 999999.0) return key
     }
     return null
 }
@@ -243,11 +244,11 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((keyB, value) in b)
         if (a[keyB] == value) a.remove(keyB)
-    
 }
+
 
 /**
  * Простая
@@ -284,7 +285,12 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+    for (item in list)
+        map[item] = ((map[item] ?: 0) + 1)
+    return map.filter { it.value > 1 }
+}
 
 /**
  * Средняя
@@ -295,7 +301,14 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val compare = words.map { it.toList().sorted() }
+    for (i in 0 until words.size) {
+        for (j in i + 1 until words.size)
+            if (compare[i] == compare[j]) return true
+    }
+    return false
+}
 
 /**
  * Сложная
