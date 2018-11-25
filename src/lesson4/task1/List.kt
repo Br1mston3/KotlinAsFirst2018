@@ -156,11 +156,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C = 0.0
+    var c = 0.0
     for (i in 0 until a.size) {
-        C += a[i] * b[i]
+        c += a[i] * b[i]
     }
-    return C
+    return c
 }
 
 /**
@@ -173,8 +173,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
-    val X = x
-    for (i in 0 until p.size) result += p[i] * X.pow(i)
+    val x1 = x
+    for ((index, value) in p.withIndex())
+        result += value * x1.pow(index)
+
     return result
 }
 
@@ -189,10 +191,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    for (i in 1 until list.size) {
+    for (i in 1 until list.size)
         list[i] += list[i - 1]
-    }
     return list
 }
 
@@ -206,10 +206,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val mlist = mutableListOf<Int>()
-    var N = n
-    while (N != 1) {
-        mlist.add(minDivisor(N))
-        N /= minDivisor(N)
+    var n1 = n
+    var i = 2
+    while (n1 >= i) {
+        if (n1 % i == 0) {
+            mlist.add(i)
+            n1 /= mlist.last()
+        } else i++
     }
     return mlist
 }
@@ -231,14 +234,14 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var N = n
+    var n1 = n
     val mlist = mutableListOf<Int>()
-    if (N == 0) mlist.add(0)
-    while (N > 0) {
-        mlist.add(0, N % base)
-        N /= base
-    }
-    return mlist
+
+    do {
+        mlist.add(n1 % base)
+        n1 /= base
+    } while (n1 > 0)
+    return mlist.asReversed()
 }
 
 /**
@@ -250,11 +253,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val conv = convert(n, base).toMutableList()
+    val conv = convert(n, base)
     val t = StringBuilder()
-    val Chary = 87               ///// значение 'a'=97 в Char отличается от 10 (int) на 87
+    val chary = 'a'.toInt() - 10               ///// значение 'a'=97 в Char отличается от 10 (int) на 87
     for (i in 0 until conv.size) {
-        if (conv[i] > 9) t.append((conv[i] + Chary).toChar())
+        if (conv[i] > 9) t.append((conv[i] + chary).toChar())
         else t.append(conv[i])
     }
     return t.toString()
@@ -268,13 +271,13 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var k = 0.0
-    var powER = 0
+    var k = 0
+
     for (i in 0 until digits.size) {
-        powER = digits.size - i - 1   // powER - Степень числа base
-        k += digits[i] * base.toDouble().pow((powER).toDouble())
+        val power = digits.size - i - 1   // powER - Степень числа base
+        k += digits[i] * base.toDouble().pow(power).toInt()
     }
-    return k.toInt()
+    return k
 }
 
 /**
@@ -286,8 +289,22 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int = TODO() /* {
 
+    var sequenced = str.map { it.toString().toInt() }
+
+    var result = 0
+    val chary = 'a'.toInt() - 10                                  ///// значение 'a'=97 в Char отличается от 10 (int) на 87
+    for ((value, index) in sequenced) {                         /////////Вопрос: почему выдает ошибку на sequenced
+        val power = sequenced.size - index - 1                    ///// Destructuring declaration initializer of type Char must have a 'component1()' function
+        var n = if (value in 0..9) value else value.toInt - chary    // Destructuring declaration initializer of type Char must have a 'component2()' function
+        result += n * base.toDouble().pow(power)
+
+
+    }
+    return result
+}
+*/
 /**
  * Сложная
  *

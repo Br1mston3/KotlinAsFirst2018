@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.io.File.separator
+
 /**
  * Пример
  *
@@ -94,7 +96,14 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     mapOf("Emergency" to "911", "Police" to "02")
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
-fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> = TODO()
+fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
+    val result = (mapA + mapB).toMutableMap()
+    for ((key, value) in mapA) {
+        if ((value != mapB[key]) && (key in mapB))
+            result[key] = "$value, ${mapB[key]}"
+    }
+    return result
+}
 
 /**
  * Простая
@@ -106,7 +115,21 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val result = mutableMapOf<Int, List<String>>()
+
+
+    for ((name, grade) in grades) {
+
+        if (grade in result) result[grade] = result[grade]!! + (name)
+        else
+            result[grade] = listOf(name)
+    }
+    for ((grade, list) in result)
+        result[grade] = list.sortedDescending()
+
+    return result
+}
 
 /**
  * Простая
@@ -118,7 +141,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = TODO()
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all { (i, n) -> b[i] == n }
 
 /**
  * Средняя
@@ -189,7 +212,10 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TODO()
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+    for ((keyB, value) in b)
+        if (a[keyB] == value) a.remove(keyB)
+}
 
 /**
  * Простая
