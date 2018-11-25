@@ -153,7 +153,25 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val dispers = mutableMapOf<String, Double>()
+    val result = mutableMapOf<String, Double>()
+
+    for (i in 0 until stockPrices.size)
+        dispers[stockPrices[i].first] = 0.0
+    for ((key) in dispers) {
+        var count = 0
+        var sum = 0.0
+        for (i in 0 until stockPrices.size)
+
+            if (key == stockPrices[i].first) {
+                sum += stockPrices[i].second
+                count++
+            }
+        result[key] = sum / count
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -170,7 +188,20 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *     "печенье"
  *   ) -> "Мария"
  */
-fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
+fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
+    var mincost = 999999.0
+
+    for ((key, pair) in stuff) {
+        if (kind == pair.first) {
+            if (pair.second < mincost)
+                mincost = pair.second
+
+
+            return key
+        }
+    }
+    return null
+}
 
 /**
  * Сложная
@@ -215,6 +246,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
     for ((keyB, value) in b)
         if (a[keyB] == value) a.remove(keyB)
+    
 }
 
 /**
@@ -222,7 +254,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
 
 /**
  * Средняя
@@ -233,7 +265,12 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
+fun canBuildFrom(chars: List<Char>, word: String): Boolean {
+
+    val a = word.toSet()
+    val b = chars.toSet()
+    return b.containsAll(a)
+}
 
 /**
  * Средняя
