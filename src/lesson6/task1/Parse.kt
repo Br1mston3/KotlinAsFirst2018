@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -49,12 +51,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +71,27 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun MonthOfYear(month: String):Int {
+    val monthOfYear = mapOf<String, Int>("январь" to 1, "февраль" to 2, "март" to 3, "апрель" to 4, "май" to 5, "июнь" to 6,
+            "июль" to 7, "август" to 8, "сентябрь" to 9, "октябрь" to 10, "ноябрь" to 11, "декабрь" to 12)
+    val list = listOf<String>("", "январь" , "февраль", "март", "апрель", "май", "июнь",
+            "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь")
+    if (list.contains(month)) return list.indexOf(month)
+    return "".toInt()
+}
+
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    /*val daysOfMonth = mapOf<String, Int>("январь" to 1, "февраль" to 2, "март" to 3, "апрель" to 4, "май" to 5, "июнь" to 6,
+            "июль" to 7, "август" to 8, "сентябрь" to 9, "октябрь" to 10, "ноябрь" to 11, "декабрь" to 12) */
+    val day = parts[0].toInt()
+    val year = parts[2].toInt()
+    val month = MonthOfYear(parts[1])
+    if (day == daysInMonth(month, year)) return String.format("%02d.%02d.%02d", day, month, year)
+    return ""
+
+}
 
 /**
  * Средняя

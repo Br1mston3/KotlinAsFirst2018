@@ -173,9 +173,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
-    val x1 = x
+
     for ((index, value) in p.withIndex())
-        result += value * x1.pow(index)
+        result += value * x.pow(index)
 
     return result
 }
@@ -208,10 +208,10 @@ fun factorize(n: Int): List<Int> {
     val mlist = mutableListOf<Int>()
     var n1 = n
     var i = 2
-    while (n1 >= i) {
+    while (n1 > 1) {
         if (n1 % i == 0) {
             mlist.add(i)
-            n1 /= mlist.last()
+            n1 /= i
         } else i++
     }
     return mlist
@@ -256,9 +256,9 @@ fun convertToString(n: Int, base: Int): String {
     val conv = convert(n, base)
     val t = StringBuilder()
     val chary = 'a'.toInt() - 10               ///// значение 'a'=97 в Char отличается от 10 (int) на 87
-    for (i in 0 until conv.size) {
-        if (conv[i] > 9) t.append((conv[i] + chary).toChar())
-        else t.append(conv[i])
+    conv.forEach {
+        if (it > 9) t.append((it + chary).toChar())
+        else t.append(it)
     }
     return t.toString()
 }
@@ -289,22 +289,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO() /* {
-
-    var sequenced = str.map { it.toString().toInt() }
-
-    var result = 0
-    val chary = 'a'.toInt() - 10                                  ///// значение 'a'=97 в Char отличается от 10 (int) на 87
-    for ((value, index) in sequenced) {                         /////////Вопрос: почему выдает ошибку на sequenced
-        val power = sequenced.size - index - 1                    ///// Destructuring declaration initializer of type Char must have a 'component1()' function
-        var n = if (value in 0..9) value else value.toInt - chary    // Destructuring declaration initializer of type Char must have a 'component2()' function
-        result += n * base.toDouble().pow(power)
+fun decimalFromString(str: String, base: Int): Int = str.toInt(base)
 
 
-    }
-    return result
-}
-*/
 /**
  * Сложная
  *
