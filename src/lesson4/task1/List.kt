@@ -208,7 +208,7 @@ fun factorize(n: Int): List<Int> {
     val mlist = mutableListOf<Int>()
     var n1 = n
     var i = 2
-    while (n1 > 1) {
+    while (n1 != 1) {
         if (n1 % i == 0) {
             mlist.add(i)
             n1 /= i
@@ -256,7 +256,7 @@ fun convertToString(n: Int, base: Int): String {
     val conv = convert(n, base)
     val t = StringBuilder()
     val chary = 'a'.toInt() - 10               ///// значение 'a'=97 в Char отличается от 10 (int) на 87
-    conv.forEach {
+    for (it in conv) {
         if (it > 9) t.append((it + chary).toChar())
         else t.append(it)
     }

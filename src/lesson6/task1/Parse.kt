@@ -77,19 +77,18 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
 
 
-    when (parts.size) {
-        3 -> {
-            val months = listOf("0", "января", "февраля", "марта", "апреля", "мая", "июня",
-                    "июля", "августа", "сентября", "октября", "ноября", "декабря")
-            val day = parts[0].toIntOrNull()
-            val year = parts[2].toIntOrNull()
-            var month = 0
-            for ((index, element) in months.withIndex()) if (element == parts[1]) month = index
-            if (year != null && day != null && month != 0 && day in 1..daysInMonth(month, year))
-                return String.format("%02d.%02d.%02d", day, month, year) else return ""
-        }
-        else -> return ""
-    }
+    if (parts.size == 3) {
+
+        val months = listOf("0", "января", "февраля", "марта", "апреля", "мая", "июня",
+                "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        val day = parts[0].toIntOrNull()
+        val year = parts[2].toIntOrNull()
+        var month = 0
+        for ((index, element) in months.withIndex()) if (element == parts[1]) month = index
+        if (year != null && day != null && month != 0 && day in 1..daysInMonth(month, year))
+            return String.format("%02d.%02d.%02d", day, month, year) else return ""
+    } else return ""
+
 }
 
 /**
@@ -115,7 +114,8 @@ fun dateDigitToStr(digital: String): String {
         for ((key, element) in monthStringToInt) {
             if (key == parts[1]) monthStr = element
         }
-        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year)) return ("$day $monthStr $year")
+        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))
+            return String.format("%02d.%d.%d", day, monthStr, year)
     }
     return ""
 }
@@ -178,7 +178,14 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val listOfWords = str.toLowerCase().split(" ")
+    var index = 0
+    for (i in 1 until listOfWords.size)
+        if (listOfWords[i] == listOfWords[i - 1]) return index
+        else index += listOfWords[i - 1].length + 1
+    return -1
+}
 
 /**
  * Сложная
