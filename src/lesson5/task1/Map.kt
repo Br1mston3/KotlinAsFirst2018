@@ -191,15 +191,18 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var mincost = Double.MAX_VALUE
     var result = ""
+    var available = false
     for ((key, pair) in stuff) {
         if (kind == pair.first) {
             if (pair.second < mincost) {
                 mincost = pair.second
                 result = key
+                available = true
             }
         }
     }
-    if (result != "") return result else return null
+    if (available) return result
+     else return null
 }
 
 /**

@@ -86,7 +86,7 @@ fun dateStrToDigit(str: String): String {
         var month = 0
         for ((index, element) in months.withIndex()) if (element == parts[1]) month = index
         if (year != null && day != null && month != 0 && day in 1..daysInMonth(month, year))
-            return String.format("%02d.%02d.%02d", day, month, year) else return ""
+            return String.format("%02d.%02d.%d", day, month, year) else return ""
     } else return ""
 
 }
@@ -115,7 +115,7 @@ fun dateDigitToStr(digital: String): String {
             if (key == parts[1]) monthStr = element
         }
         if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))
-            return String.format("%02d.%d.%d", day, monthStr, year)
+            return ("$day $monthStr $year")
     }
     return ""
 }
@@ -132,7 +132,12 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (Regex("""\d""").matches(phone)) return phone
+    if (Regex("""(\+?|\d)\d+?\s*(\(\d+\))?((\s*-*)*\d+)+""").matches(phone))
+        return Regex("""(-)|(\s)|(\()|(\))""").replace(phone, "")
+    return ""
+}
 
 /**
  * Средняя
@@ -198,7 +203,15 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    return try {
+        description.split("; ").toMutableList().map { it.split(' ') }
+                .map { it -> Pair(it[0], it[1].toDouble()) }.maxBy { (_, cost) -> cost }!!.first
+    } catch (e: Exception) {
+        ""
+    }
+
+}
 
 /**
  * Сложная
