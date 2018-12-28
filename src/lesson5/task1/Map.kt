@@ -201,8 +201,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
             }
         }
     }
-    if (available) return result
-     else return null
+    if (!available) return null
+     else return result
 }
 
 /**
