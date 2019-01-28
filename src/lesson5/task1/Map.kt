@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import java.io.File.separator
+import kotlin.collections.MutableList
 
 /**
  * Пример
@@ -100,8 +101,9 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
 
     val result = mapB.toMutableMap()
     for ((key, value) in mapA) {
-        if ((value != mapB[key]) && (key in mapB))
-            result[key] = "$value, ${mapB[key]}" else result[key] = value
+        var suitableKey = mapB[key]
+        if ((value != suitableKey) && (key in mapB))                            //mapB[key]->var
+            result[key] = "$value, ${suitableKey}" else result[key] = value
     }
     return result
 }
@@ -121,9 +123,9 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
 
 
     for ((name, grade) in grades) {
-        if (grade in result) result[grade] = result[grade]!! + (name)
-        else
-            result[grade] = listOf(name)
+
+        result[grade] = result.getOrDefault(grade, listOf()) + (name)          //getOrDefault
+
     }
     for ((grade, list) in result)
         result[grade] = list.sortedDescending()
@@ -158,11 +160,11 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val result = mutableMapOf<String, Double>()
 
     for (i in 0 until stockPrices.size)
-        dispers[stockPrices[i].first] = 0.0
-    for ((key) in dispers) {
+        result[stockPrices[i].first] = 0.0
+    for ((key) in result) {                                   //ключ и циклы
         var count = 0
         var sum = 0.0
-        for (i in 0 until stockPrices.size)
+        for (i in 0 until stockPrices.size)                    // вложенные циклы
 
             if (key == stockPrices[i].first) {
                 sum += stockPrices[i].second
@@ -190,19 +192,19 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var mincost = Double.MAX_VALUE
-    var result = ""
+    var result = "random stuff that can`t be result"
     var available = false
     for ((key, pair) in stuff) {
         if (kind == pair.first) {
             if (pair.second < mincost) {
                 mincost = pair.second
                 result = key
-                available = true
+                available = true                         // ?
             }
         }
     }
     if (!available) return null
-     else return result
+    else return result
 }
 
 /**
@@ -247,7 +249,8 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((keyB, value) in b)
-        if (a[keyB] == value) a.remove(keyB)
+        if (a[keyB] == value) a.remove(keyB) //removeIf
+
 }
 
 
@@ -331,7 +334,7 @@ fun hasAnagrams(words: List<String>): Boolean {
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     for (i in 0 until list.size) {
         for (j in i + 1 until list.size)
-            if (list[i] + list[j] == number) return Pair(i, j)
+            if (list[i] + list[j] == number) return Pair(i, j)              // map [list[i]]=i
     }
     return Pair(-1, -1)
 }

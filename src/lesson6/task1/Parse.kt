@@ -84,7 +84,7 @@ fun dateStrToDigit(str: String): String {
         val day = parts[0].toIntOrNull()
         val year = parts[2].toIntOrNull()
         var month = 0
-        for ((index, element) in months.withIndex()) if (element == parts[1]) month = index
+        for ((index, element) in months.withIndex()) if (element == parts[1]) month = index           //indexOf
         if (year != null && day != null && month != 0 && day in 1..daysInMonth(month, year))
             return String.format("%02d.%02d.%d", day, month, year) else return ""
     } else return ""
@@ -112,9 +112,9 @@ fun dateDigitToStr(digital: String): String {
         val year = parts[2].toIntOrNull()
         var monthStr = ""
         for ((key, element) in monthStringToInt) {
-            if (key == parts[1]) monthStr = element
+            if (key == parts[1]) monthStr = element                                                //map[key]
         }
-        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))
+        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))                  // ? exception
             return ("$day $monthStr $year")
     }
     return ""
@@ -137,6 +137,11 @@ fun flattenPhoneNumber(phone: String): String {
     if (Regex("""(\+?|\d)\d+?\s*(\(\d+\))?((\s*-*)*\d+)+""").matches(phone))
         return Regex("""(-)|(\s)|(\()|(\))""").replace(phone, "")
     return ""
+}
+
+fun phoneMoreThanOneSymbol(phone: String): String {
+ if (phone.matches(Regex("""(\d)+"""))) return phone
+    else return ""
 }
 
 /**
@@ -203,7 +208,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String {
+fun mostExpensive(description: String): String { //try-catch
     return try {
         description.split("; ").toMutableList().map { it.split(' ') }
                 .map { it -> Pair(it[0], it[1].toDouble()) }.maxBy { (_, cost) -> cost }!!.first
