@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import jdk.nashorn.internal.objects.NativeArray.indexOf
 import lesson2.task2.daysInMonth
 
 /**
@@ -84,7 +85,7 @@ fun dateStrToDigit(str: String): String {
         val day = parts[0].toIntOrNull()
         val year = parts[2].toIntOrNull()
         var month = 0
-        for ((index, element) in months.withIndex()) if (element == parts[1]) month = index           //indexOf
+        for (element in months) if (element == parts[1]) month = months.indexOf(element)           //indexOf
         if (year != null && day != null && month != 0 && day in 1..daysInMonth(month, year))
             return String.format("%02d.%02d.%d", day, month, year) else return ""
     } else return ""
@@ -111,8 +112,9 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toIntOrNull()
         val year = parts[2].toIntOrNull()
         var monthStr = ""
-        for ((key, element) in monthStringToInt) {
-            if (key == parts[1]) monthStr = element                                                //map[key]
+        for (element in monthStringToInt) {
+            val key=element.key
+            if (key == parts[1]) monthStr = monthStringToInt[key]!!                                                //map[key]
         }
         if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))                  // ? exception
             return ("$day $monthStr $year")

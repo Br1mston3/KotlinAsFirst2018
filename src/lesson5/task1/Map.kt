@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import java.io.File.separator
+import java.util.*
 import kotlin.collections.MutableList
 
 /**
@@ -101,7 +102,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
 
     val result = mapB.toMutableMap()
     for ((key, value) in mapA) {
-        var suitableKey = mapB[key]
+        val suitableKey = mapB[key]
         if ((value != suitableKey) && (key in mapB))                            //mapB[key]->var
             result[key] = "$value, ${suitableKey}" else result[key] = value
     }
@@ -156,7 +157,6 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val dispers = mutableMapOf<String, Double>()
     val result = mutableMapOf<String, Double>()
 
     for (i in 0 until stockPrices.size)
@@ -249,8 +249,7 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((keyB, value) in b)
-        if (a[keyB] == value) a.remove(keyB) //removeIf
-
+        a.remove(keyB, value)
 }
 
 
@@ -332,9 +331,16 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    for (i in 0 until list.size) {
-        for (j in i + 1 until list.size)
-            if (list[i] + list[j] == number) return Pair(i, j)              // map [list[i]]=i
+    val sameList=list.toMutableList()
+    val result= sameList
+    for (element in sameList) {
+        result.remove(element)
+        if (number - element in result) return Pair(result.indexOf(element)+1, result.indexOf(number-element)+1)
+        //  for (i in 0 until list.size) {
+        //      for (j in i + 1 until list.size)
+        //          if (list[i] + list[j] == number) return Pair(i, j)              // map [list[i]]=i
+        //  }
+
     }
     return Pair(-1, -1)
 }
