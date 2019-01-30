@@ -208,7 +208,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     return when {
         (available && result != "") -> result
         (available) -> ""
-            else -> null
+        else -> null
     }
 }
 
@@ -313,7 +313,7 @@ fun hasAnagrams(words: List<String>): Boolean {
     val charsOfElement = mutableListOf<List<Char>>()
     for (element in words)
         if (element.toList().sorted() in charsOfElement) return true
-    else charsOfElement.add(element.toList().sorted())
+        else charsOfElement.add(element.toList().sorted())
     return false
 }
 
@@ -336,9 +336,10 @@ fun hasAnagrams(words: List<String>): Boolean {
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     val sameList = list.toMutableList()
+
     for (element in sameList) {
         val result = sameList - element
-        if (number - element in result) return Pair(result.indexOf(element) + 1, result.indexOf(number - element) + 1)
+        if (number - element in result) return Pair(sameList.indexOf(element), sameList.indexOf(number - element))
     }
     return Pair(-1, -1)
 }
