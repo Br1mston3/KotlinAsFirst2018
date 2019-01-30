@@ -157,11 +157,13 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean = a.all 
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+
     val result = mutableMapOf<String, Double>()
 
     for (i in 0 until stockPrices.size)
-        result[stockPrices[i].first] = 0.0
-    for ((key) in result) {                                   //ключ и циклы
+        result[stockPrices[i].first] = 0.0                               //ключ и циклы
+    for ((key) in result) {
+
         var count = 0
         var sum = 0.0
         for (i in 0 until stockPrices.size)                    // вложенные циклы
@@ -192,19 +194,22 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var mincost = Double.MAX_VALUE
-    var result = "random stuff that can`t be result"
+    var result = "random words that can`t be result"
     var available = false
     for ((key, pair) in stuff) {
         if (kind == pair.first) {
-            if (pair.second < mincost) {
+            if (pair.second <= mincost) {
                 mincost = pair.second
                 result = key
-                available = true                         // ?
+                available = true
             }
         }
     }
-    if (!available) return null
-    else return result
+    return when {
+        (available && result != "") -> result
+        (available) -> ""
+            else -> null
+    }
 }
 
 /**
@@ -305,11 +310,10 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val compare = words.map { it.toList().sorted() }
-    for (i in 0 until words.size) {
-        for (j in i + 1 until words.size)
-            if (compare[i] == compare[j]) return true
-    }
+    val charsOfElement = mutableListOf<List<Char>>()
+    for (element in words)
+        if (element.toList().sorted() in charsOfElement) return true
+    else charsOfElement.add(element.toList().sorted())
     return false
 }
 
@@ -331,16 +335,10 @@ fun hasAnagrams(words: List<String>): Boolean {
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val sameList=list.toMutableList()
-    val result= sameList
+    val sameList = list.toMutableList()
     for (element in sameList) {
-        result.remove(element)
-        if (number - element in result) return Pair(result.indexOf(element)+1, result.indexOf(number-element)+1)
-        //  for (i in 0 until list.size) {
-        //      for (j in i + 1 until list.size)
-        //          if (list[i] + list[j] == number) return Pair(i, j)              // map [list[i]]=i
-        //  }
-
+        val result = sameList - element
+        if (number - element in result) return Pair(result.indexOf(element) + 1, result.indexOf(number - element) + 1)
     }
     return Pair(-1, -1)
 }

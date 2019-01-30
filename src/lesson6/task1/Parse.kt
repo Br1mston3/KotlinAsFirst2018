@@ -112,11 +112,10 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toIntOrNull()
         val year = parts[2].toIntOrNull()
         var monthStr = ""
-        for (element in monthStringToInt) {
-            val key=element.key
-            if (key == parts[1]) monthStr = monthStringToInt[key]!!                                                //map[key]
+        for ((key) in monthStringToInt) {
+            if (key == parts[1]) monthStr = monthStringToInt[key]!!
         }
-        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))                  // ? exception
+        if (monthStr != "" && year != null && day in 1..daysInMonth(month!!, year))
             return ("$day $monthStr $year")
     }
     return ""
@@ -134,17 +133,8 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    if (Regex("""\d""").matches(phone)) return phone
-    if (Regex("""(\+?|\d)\d+?\s*(\(\d+\))?((\s*-*)*\d+)+""").matches(phone))
-        return Regex("""(-)|(\s)|(\()|(\))""").replace(phone, "")
-    return ""
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
-fun phoneMoreThanOneSymbol(phone: String): String {
- if (phone.matches(Regex("""(\d)+"""))) return phone
-    else return ""
-}
 
 /**
  * Средняя
